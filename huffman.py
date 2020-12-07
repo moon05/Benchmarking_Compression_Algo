@@ -25,6 +25,7 @@ def encode(root, string, huffman_code):
 	if root is None:
 		return
 
+	#this is for going bottom-up
 	if isLeaf(root):
 		huffman_code[root.char] = string if len(string) > 0 else "1"
 
@@ -32,7 +33,6 @@ def encode(root, string, huffman_code):
 	encode(root.right, string + "1", huffman_code)
 
 def decode(root, index, string):
-
 	if root is None:
 		return index
 
@@ -51,12 +51,10 @@ def createHuffmanTree(string):
 
 	#count frequency of characters
 	frequency = {i: string.count(i) for i in set(string)}
-	print (frequency)
 
 	#priority queue with Nodes for character and frequency pairs
 	priQ = [Node(k, v) for k, v in frequency.items()]
 	heapq.heapify(priQ)
-	print (priQ)
 
 	while len(priQ) != 1:
 
@@ -69,8 +67,8 @@ def createHuffmanTree(string):
 		heappush(priQ, Node(None, total, left, right))
 
 	root = priQ[0]
-
 	huffmanCode = dict()
+
 	encode(root, "", huffmanCode)
 
 	print ("Huffman Codes: ", huffmanCode)
@@ -87,7 +85,7 @@ def createHuffmanTree(string):
 	if isLeaf(root):
 		#for repeat characters
 		while root.freq > 0:
-			print (root.char)
+			print (root.char, end="")
 			root.freq = root.freq - 1
 	else:
 		#since index gets incremented inside decode()
